@@ -1,25 +1,17 @@
-/*
-Name: Yousef Al-Jazzazi 
-netID: ya2225
-Asssignment 1 for CPE class
-Project name:  Civil Engineering Case Study – Aviation Safety
-Description: The program checks whether the location detecting systems in airplanes are up to aviation safety standards. 
-
+/**
+ * Name: Yousef Al-Jazzazi 
+ * netID: ya2225
+ * Asssignment 1 for CPE class
+ * Project name:  Civil Engineering Case Study ï¿½ Aviation Safety
+ * Description: The program checks whether the location detecting systems in airplanes are up to aviation safety standards. 
 */
 
-#include <iostream>
-#include <cmath>
-#include <fstream>
-#include <iomanip>
+#include "Assignment1.hpp"
 
 using namespace std;
 
-//Initilizing functions
-void menu(bool&);
-void calcError();
-void displayError();
-
-int main() {
+int main()
+{
 	cout << "This function of this program is to calculate the inaccuracy of an ariplane positioning system" 
 		<< "\nThe airplane store its positions using two different systems."
 		<< "The program checks the inaccuracy by calculating the differenct between the two systems" 
@@ -33,7 +25,8 @@ int main() {
 }
 
 //A function to display the menu and ask the user what function in the program they want to use (or whether they want to exit the program)
-void menu(bool& repeat) {
+void menu(bool& repeat)
+{
 	
 	cout << "There are two functions of the program."
 		<< "\nPress 1 to calculate the error"
@@ -49,7 +42,11 @@ void menu(bool& repeat) {
 		displayError();
 	else if (choice == "3") {
 		cout << "Thanks for using our porgramm" << endl;
-		//The menu function will be called continuesly until repeat is false which is when the user choice is 3
+		/**
+		 * The menu function will be called continuesly until repeat is \
+		 * false which is when the user choice is 3
+		 * Termination clause
+		*/
 		repeat = false;
 	}
 	else
@@ -59,7 +56,8 @@ void menu(bool& repeat) {
 		
 
 //A function to calculating the error and storing them in a file
-void calcError() {
+void calcError()
+{
 	ifstream file1, file2;
 	ofstream errLog;
 	string nameFile;
@@ -140,14 +138,15 @@ void calcError() {
 }
 
 //A function to display the errors stored in the error file
-void displayError() {
+void displayError()
+{
 	ifstream errLog;
 	errLog.open("ERR.LOG", ios::_Nocreate);
 	
 	//In case the error file has not been created 
 	if (errLog.fail()) {
-		cerr << "File doesnt exist. Please calculate the error before displaying the error\n\n\n" << endl;
-		return;
+		cerr << "File doesnt exist. Please calculate the error before displaying the error" << endl;
+		exit(EXIT_FAILURE);
 	}
 
 	cout << left << setw(15) << "Time[s]" << setw(15) << "Distance[km]" << "\n";
@@ -156,5 +155,4 @@ void displayError() {
 		cout << left << setw(15) << time << setw(15) << distance << "\n";
 	
 	errLog.close();
-
 }
