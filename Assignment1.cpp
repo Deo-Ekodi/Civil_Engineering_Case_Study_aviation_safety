@@ -34,26 +34,41 @@ void menu(bool& repeat)
 		<< "\nPress 3 to exit the run" << endl;
 	//I choose the combination of string and if statement rather than an switch statement because 
 	//in the case a user input a string in an int, it will result in a failed comand with an infinite loop
-	string choice;
+	unsigned choice;
 	cin >> choice;
-	if (choice == "1")
-		calcError();
-	else if(choice == "2")
-		displayError();
-	else if (choice == "3") {
-		cout << "Thanks for using our porgramm" << endl;
-		/**
-		 * The menu function will be called continuesly until repeat is \
-		 * false which is when the user choice is 3
-		 * Termination clause
-		*/
-		repeat = false;
-	}
-	else
-		cout << "Please input one of the options" << endl;
+	// if (choice == "1")
+	// 	calcError();
+	// else if(choice == "2")
+	// 	displayError();
+	// else if (choice == "3") {
+	// 	cout << "Thanks for using our porgramm" << endl;
+	// 	/**
+	// 	 * The menu function will be called continuesly until repeat is \
+	// 	 * false which is when the user choice is 3
+	// 	 * Termination clause
+	// 	*/
+	// 	repeat = false;
+	// }
+	// else
+	// 	cout << "Please input one of the options" << endl;
 
-	}
+	switch(choice){
+		case 1 : 
+			calcError();
+			break;
 		
+		case 2:
+			displayError();
+			break;
+
+		case 3:
+			cout << "Thanks for using our program." << endl;
+
+		default:
+			cout << "Invalid input! Enter a valid option." << endl;
+	}
+
+}		
 
 //A function to calculating the error and storing them in a file
 void calcError()
