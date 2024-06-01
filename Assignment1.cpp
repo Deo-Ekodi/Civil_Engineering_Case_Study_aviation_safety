@@ -16,46 +16,45 @@ int main()
 	cout << "The airplane store its positions using two different systems." << endl;
 	cout << "The program checks the inaccuracy by calculating the differenct between the two systems." << endl;
 
-	bool repeat = true;
-	while(repeat)
-		menu(repeat);
+	menu();
 
 	return(0);
 }
 
-void menu(bool& repeat)
+void menu()
 {
-	
-	cout << "There are two functions of the program."
-		<< "\nPress 1 to calculate the error"
-		<< "\nPress 2 to display the error. Display the error only after calculating it" 
-		<< "\nPress 3 to exit the run" << endl;
-
-	unsigned choice;
-
-	cin >> choice;
-
-	// assert(choice > 0 && choice <= 3, "Invalid input!");
-
-	switch(choice)
+	bool repeat = true;
+	while (repeat)
 	{
-		case 1 : 
-			calcError();
-			break;
-		
-		case 2:
-			displayError();
-			break;
+		cout << "There are two functions of the program."
+			<< "\nPress 1 to calculate the error"
+			<< "\nPress 2 to display the error." 
+			<< "\nPress 3 to exit the run" << endl;	
 
-		case 3:
-			cout << "Thanks for using our program." << endl;
+		unsigned choice;
+		cin >> choice;
 
-		default:
-			cout << "Invalid input! Enter a valid option." << endl;
-			break;
+		switch(choice)
+		{
+			case 1 : 
+				calcError();
+				break;
+
+			case 2:
+				displayError();
+				break;
+
+			case 3:
+				cout << "Thanks for using our program." << endl;
+				repeat = false;
+				break;
+
+			default:
+				cout << "Invalid input! Enter a valid option." << endl;
+				break;
+		}
 	}
-
-}		
+}
 
 void calcError()
 {
@@ -64,27 +63,25 @@ void calcError()
 	string nameFile;
 	double tolerance(0);
 
-	cout << "To calculate the error. Please enter the names of the two files that store the position of the airplane" << endl;
-	cout << "Start by entering the name of the first file: (Press 0 to go back to the main menu)" << endl;
-	cin >> nameFile;
-	file1.open(nameFile, ios::in);
+	// file1.open("file1.txt", ios::__noreplace);
+	file1.open("file1.txt", fstream::in | fstream::out);
 
 /**
  * if the name inputed by the user doesnt work, keep asking the user for a valid name.
  * The user can opt out by inputting a 0
 */
-	while (file1.fail())
-	{
-		if (nameFile == "0")
-			return;
-		cerr << "Error. The file doesn't exist. Please try again" << endl;
+	while(!file1){
+		cerr << "Error; Couldn't open file" << endl;
 		cin >> nameFile;
-
-		file1.open(nameFile, ios::in);
+		if(nameFile == "0"){
+			exit(EXIT_FAILURE);
+		}
+		// file1.open(nameFile, ios::__noreplace);
+		file1.open("file1.txt", ios::in);
 	}
 
-	cout << "Please enter the name of the second file: (Press 0 to go back to the main menu)" << endl;
 	cin >> nameFile;
+	// file2.open(nameFile, ios::__noreplace);
 	file2.open(nameFile, ios::in);
 /**
  * if the name inputed by the user doesnt work, keep asking the user for a valid name.
@@ -92,17 +89,20 @@ void calcError()
 */
 	while (file2.fail())
 	{
+		cout << "Please enter the name of the second file: (Press 0 to go back to the main menu)" << endl;
 		if (nameFile == "0")
 			exit(EXIT_FAILURE);
-		cerr << "Error. The file doesn't exist. Please try again" << endl;
 		cin >> nameFile;
+		// file2.open(nameFile, ios::__noreplace);
 		file2.open(nameFile, ios::in);
+		if(!file2){
+			cerr << "Error. The file doesn't exist. Please try again" << endl;
+		}
 	}
 
 	errLog.open("ERR.LOG", ios::out);
-	
-	
-	cout << "Please enter the magnitude of the accepted" << endl;
+
+	cout << "Please enter the magnitude of the accepted tolerance" << endl;
 	cin >> tolerance;
 
 	double xfile1(0), yfile1(0), zfile1(0);
